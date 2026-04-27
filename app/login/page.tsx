@@ -156,7 +156,7 @@ export default function AuthPage() {
       </div>
 
       {/* ══ DESKTOP (≥ md) ══ */}
-      <div className="hidden md:flex relative w-full max-w-3xl h-[520px] bg-white rounded-3xl shadow-2xl overflow-hidden">
+      <div data-testid="desktop-view" className="hidden md:flex relative w-full max-w-3xl h-[520px] bg-white rounded-3xl shadow-2xl overflow-hidden">
 
         {/* LOGIN FORM */}
         <div className={`absolute inset-y-0 flex flex-col items-center justify-center px-10 w-1/2 transition-all duration-700 ease-in-out

@@ -13,23 +13,24 @@ test.describe('Auth Flow', () => {
 
   test('Sign Up and Sign In flow', async ({ page }) => {
     await page.goto('/login');
+    const view = page.getByTestId('desktop-view');
     
-    // Sign Up tab: click SIGN UP overlay button (it's the second SIGN UP button in DOM)
-    await page.locator('button', { hasText: /^SIGN UP$/ }).nth(1).click();
-    await page.getByPlaceholder('Name').fill(TEST_USER.name);
-    await page.locator('input[placeholder="Email"]').nth(1).fill(TEST_USER.email);
-    await page.locator('input[placeholder="Password"]').nth(1).fill(TEST_USER.password);
+    // Sign Up tab: click SIGN UP overlay button (it's the second SIGN UP button in DOM for desktop view)
+    await view.locator('button', { hasText: /^SIGN UP$/ }).nth(1).click();
+    await view.getByPlaceholder('Name').fill(TEST_USER.name);
+    await view.locator('input[placeholder="Email"]').nth(1).fill(TEST_USER.email);
+    await view.locator('input[placeholder="Password"]').nth(1).fill(TEST_USER.password);
     
-    // Submit button is the first SIGN UP button in DOM
-    await page.locator('button', { hasText: /^SIGN UP$/ }).nth(0).click();
+    // Submit button is the first SIGN UP button in DOM for desktop view
+    await view.locator('button', { hasText: /^SIGN UP$/ }).nth(0).click();
     
     // toast "Account created!" appears -> panel slides to Sign In
     await expect(page.getByText('Account created!')).toBeVisible();
     
-    // Sign In: fill registered email + password -> click SIGN IN (first in DOM)
-    await page.locator('input[placeholder="Email"]').nth(0).fill(TEST_USER.email);
-    await page.locator('input[placeholder="Password"]').nth(0).fill(TEST_USER.password);
-    await page.locator('button', { hasText: /^SIGN IN$/ }).nth(0).click();
+    // Sign In: fill registered email + password -> click SIGN IN (first in DOM for desktop view)
+    await view.locator('input[placeholder="Email"]').nth(0).fill(TEST_USER.email);
+    await view.locator('input[placeholder="Password"]').nth(0).fill(TEST_USER.password);
+    await view.locator('button', { hasText: /^SIGN IN$/ }).nth(0).click();
     
     // redirects to /
     await expect(page).toHaveURL('http://localhost:3000/');
@@ -37,21 +38,23 @@ test.describe('Auth Flow', () => {
 
   test('Sign In with wrong credentials', async ({ page }) => {
     await page.goto('/login');
+    const view = page.getByTestId('desktop-view');
     
-    await page.locator('input[placeholder="Email"]').nth(0).fill('wrong@example.com');
-    await page.locator('input[placeholder="Password"]').nth(0).fill('wrongpassword');
-    await page.locator('button', { hasText: /^SIGN IN$/ }).nth(0).click();
+    await view.locator('input[placeholder="Email"]').nth(0).fill('wrong@example.com');
+    await view.locator('input[placeholder="Password"]').nth(0).fill('wrongpassword');
+    await view.locator('button', { hasText: /^SIGN IN$/ }).nth(0).click();
     
     await expect(page.getByText('Invalid email or password')).toBeVisible();
   });
 
   test('Sign Up with empty fields', async ({ page }) => {
     await page.goto('/login');
+    const view = page.getByTestId('desktop-view');
     
     // Click overlay SIGN UP
-    await page.locator('button', { hasText: /^SIGN UP$/ }).nth(1).click();
+    await view.locator('button', { hasText: /^SIGN UP$/ }).nth(1).click();
     // Click submit SIGN UP
-    await page.locator('button', { hasText: /^SIGN UP$/ }).nth(0).click();
+    await view.locator('button', { hasText: /^SIGN UP$/ }).nth(0).click();
     
     await expect(page.getByText('Please fill in all fields')).toBeVisible();
   });
